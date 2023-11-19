@@ -4,8 +4,6 @@ import (
 	"github.com/reinaldosaraiva/go-api/internal/entity"
 	"gorm.io/gorm"
 )
-
-
 type User struct{
 	DB *gorm.DB
 }

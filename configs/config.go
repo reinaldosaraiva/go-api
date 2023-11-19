@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/go-chi/jwtauth"
@@ -40,4 +41,9 @@ func LoadConfig(path string)(*conf,error){
 	}
 	cfg.TokenAuth = jwtauth.New("HS256", []byte(cfg.JWTSecret), nil)
 	return cfg,err
+}
+
+func (c *conf) GetDBDSN() string {
+    return fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=require TimeZone=UTC",
+        c.DBHost, c.DBPort, c.DBUser, c.DBName, c.DBPass)
 }
