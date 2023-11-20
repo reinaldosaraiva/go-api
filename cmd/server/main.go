@@ -30,9 +30,11 @@ func main() {
 	ProductHandler := handlers.NewProductHandler(database.NewProduct(db))
 	//Debug config values JWTExpireIn
 	log.Println("Config JWTExpireIN: " + strconv.FormatUint(uint64(config.JWTExpireIn), 10))
-	userHandler := handlers.NewUserHandler(database.NewUser(db),config.TokenAuth, config.JWTExpireIn)
+	userHandler := handlers.NewUserHandler(database.NewUser(db))
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	r.Use(middleware.WithValue("jwt", config.TokenAuth))
+	r.Use(middleware.WithValue("jwtExpiresIn", config.JWTExpireIn))
 	r.Route("/products", func(r chi.Router) {	
 		r.Use(jwtauth.Verifier(config.TokenAuth))
 		r.Use(jwtauth.Authenticator)

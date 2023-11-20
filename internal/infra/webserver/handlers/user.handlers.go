@@ -14,19 +14,17 @@ import (
 
 type UserHandler struct {
 	UserDB database.UserInterface
-	Jwt    *jwtauth.JWTAuth
-	JwtExperiesIn int
 }
 
-func NewUserHandler(db database.UserInterface, jwt *jwtauth.JWTAuth, JwtExperiesIn int) *UserHandler {
+func NewUserHandler(db database.UserInterface) *UserHandler {
 	return &UserHandler{
 		UserDB: db,
-		Jwt: jwt,
-		JwtExperiesIn: JwtExperiesIn,
 	}
 }
 
 func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
+	jwt := r.Context().Value("jwt").(*jwtauth.JWTAuth)
+	jwtExpiresIn := r.Context().Value("jwtExpiresIn").(int)
 	var user dto.LoginDTO
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {	
@@ -44,9 +42,9 @@ func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 	}
 	claims := map[string]interface{}{
 		"sub": strconv.FormatUint(uint64(u.ID), 10),
-		"exp": time.Now().Add(time.Second * time.Duration(h.JwtExperiesIn)).Unix(),
+		"exp": time.Now().Add(time.Second * time.Duration(jwtExpiresIn)).Unix(),
 	}
-	_, tokenStr, err := h.Jwt.Encode(claims)
+	_, tokenStr, err := jwt.Encode(claims)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
