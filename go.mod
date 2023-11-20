@@ -3,6 +3,7 @@ module github.com/reinaldosaraiva/go-api
 go 1.18
 
 require (
+	github.com/go-chi/chi v1.5.1
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/spf13/viper v1.17.0
 	github.com/stretchr/testify v1.8.4

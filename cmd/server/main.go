@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	"github.com/reinaldosaraiva/go-api/configs"
 	"github.com/reinaldosaraiva/go-api/internal/entity"
 	"github.com/reinaldosaraiva/go-api/internal/infra/database"
@@ -23,6 +25,12 @@ func main() {
 	}
 	db.AutoMigrate(&entity.User{},&entity.Product{})
 	ProductHandler := handlers.NewProductHandler(database.NewProduct(db))
-	http.HandleFunc("/products", ProductHandler.CreateProduct)
-	http.ListenAndServe(":"+config.WebServerPort, nil)
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Post("/products", ProductHandler.CreateProduct)
+	r.Get("/products/{id}", ProductHandler.GetProduct)
+	r.Get("/products", ProductHandler.GetProducts)
+	r.Put("/products/{id}", ProductHandler.UpdateProduct)
+	r.Delete("/products/{id}", ProductHandler.DeleteProduct)
+	http.ListenAndServe(":"+config.WebServerPort, r)
 }
