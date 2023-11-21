@@ -1,0 +1,22 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API Go with authentication JWT and CRUD",
+        "title": "API Go",
+        "termsOfService": "http://swagger.io/terms",
+        "contact": {
+            "name": "Reinaldo Saraiva",
+            "email": "reinaldo.saraiva@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/",
+    "paths": {},
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

@@ -1,0 +1,16 @@
+basePath: /
+info:
+  contact:
+    email: reinaldo.saraiva@gmail.com
+    name: Reinaldo Saraiva
+  description: API Go with authentication JWT and CRUD
+  termsOfService: http://swagger.io/terms
+  title: API Go
+  version: "1.0"
+paths: {}
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
