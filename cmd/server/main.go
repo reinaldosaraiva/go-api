@@ -59,6 +59,7 @@ func main() {
 		r.Delete("/{id}", ProductHandler.DeleteProduct)
 	})
 	r.Post("/users", userHandler.CreateUser)
+	r.Get("/users", userHandler.GetUserByEmail)
 
 	r.Post("/users/generate_token", userHandler.GetJWT)
 
